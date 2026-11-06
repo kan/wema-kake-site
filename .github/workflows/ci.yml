@@ -1,0 +1,27 @@
+name: CI
+
+# 型の検査（wrangler types と tsc --noEmit）を回す。このリポジトリは設定だけを持つので、Dependabot が
+# @kanf/wema-kake を上げる PR で、設定が新しい版の型に合うかをここで確かめる。デプロイ（D1 の
+# マイグレーションと wrangler deploy）は CI に入れず、手元で行う。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  typecheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck

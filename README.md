@@ -53,3 +53,7 @@ npm run deploy
 ```
 
 `npm run deploy` は、D1 のマイグレーションを当ててから Worker をデプロイします。版ごとの変更と、利用側で要る作業は、wema-kake のリリースノートに書かれます。
+
+Dependabot（`.github/dependabot.yml`）が、`@kanf/wema-kake` を含む npm の依存の更新を週に 1 度、1 本の PR にまとめて出します。PR は CI（`.github/workflows/ci.yml`）の `npm run typecheck` を通るので、設定が新しい版の型に合わなければ、マージの前に CI が失敗します。CI はデプロイしません。マージした後に、手元で `npm run deploy` します。
+
+GitHub Actions の action は、`.github/workflows/actions.lock` が commit で固定します。`uses:` を変えたら `gh actions-lock` で作り直します（手で編集しません）。
