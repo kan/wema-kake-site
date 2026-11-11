@@ -1,15 +1,18 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
 
-  // この Worker の名前。workers.dev のホスト名にもなる（https://wema.kan-fushihara.workers.dev）。
+  // この Worker の名前。
   // **今の本番と同じ名前にする**（Durable Object のデータは、Worker の名前とクラス名に結び付いている）
   "name": "wema",
   "main": "./src/index.ts",
   "compatibility_date": "2026-10-01",
-  "workers_dev": true,
 
-  // プレビュー用の URL（<version>-<name>.….workers.dev）は出さない。Access のアプリケーションは
-  // 本番のホスト名にしか掛けないので、保護の外に同じ Worker の入口を作らない
+  // 本番のホスト名。Access のアプリケーションの Destinations も、このホスト名の 1 つだけにする
+  "routes": [{ "pattern": "wema.fushihara.net", "custom_domain": true }],
+
+  // workers.dev のホスト名と、プレビュー用の URL（<version>-<name>.….workers.dev）は出さない。
+  // Access のアプリケーションは本番のホスト名にしか掛けないので、保護の外に同じ Worker の入口を作らない
+  "workers_dev": false,
   "preview_urls": false,
 
   // 画面。ビルド済みのものが @kanf/wema-kake に入っているので、それを直接指す（ビルドは要らない）。
@@ -55,6 +58,6 @@
     "ACCESS_AUD": "7393ea1ffcaea69263c01bd8b03cd5be43b52795327452ae05e4fb8dd96df2f4",
     // このサイトのオリジン（例: "https://wiki.example.com"）。付箋の中の絶対 URL のリンクを、
     // ページ間のリンクとして拾うのに使う。空なら相対 URL（/p/<slug>）だけを拾う
-    "SITE_ORIGIN": "https://wema.kan-fushihara.workers.dev"
+    "SITE_ORIGIN": "https://wema.fushihara.net"
   }
 }
